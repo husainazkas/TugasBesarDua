@@ -1,0 +1,84 @@
+<resources>
+    <string name="app_name">Tugas Besar Dua</string>
+    <string name="email_text">Email</string>
+    <string name="password_text">Password</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_journey_details">Map</string>
+    <string name="empty_text">--/--</string>
+    <string name="splash_description">By: Muh. Jawad</string>
+    <string name="sign_in_text">Sign In</string>
+    <string name="ask_sign_up">Do not have an account? Sign up</string>
+    <string name="photo_selector">Select a photo</string>
+    <string name="name_text">Name</string>
+    <string name="phone_number_text">Phone Number</string>
+    <string name="city_text">City</string>
+    <string name="register_text">Register</string>
+    <string name="profile_text">Profile</string>
+    <string name="logout_text">Logout</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string-array name="car_brand">
+        <item>Daihatsu</item>
+        <item>Honda</item>
+        <item>Mazda</item>
+        <item>Suzuki</item>
+        <item>Toyota</item>
+    </string-array>
+    <string-array name="daihatsu_model">
+        <item>Ayla</item>
+        <item>Grand Max</item>
+        <item>Luxio</item>
+        <item>Terios</item>
+        <item>Sigra</item>
+        <item>Sirion</item>
+        <item>Xenia</item>
+    </string-array>
+    <string-array name="honda_model">
+        <item>Accord</item>
+        <item>BR-V</item>
+        <item>Brio</item>
+        <item>City</item>
+        <item>Civic</item>
+        <item>CR-V</item>
+        <item>HR-V</item>
+        <item>Mobilio</item>
+        <item>Jazz</item>
+    </string-array>
+    <string-array name="mazda_model">
+        <item>CX-3</item>
+        <item>CX-5</item>
+        <item>CX-8</item>
+        <item>CX-9</item>
+        <item>CX-30</item>
+        <item>Mazda2</item>
+        <item>Mazda3</item>
+        <item>Mazda6</item>
+        <item>MX-5</item>
+    </string-array>
+    <string-array name="suzuki_model">
+        <item>APV</item>
+        <item>Baleno</item>
+        <item>Carry</item>
+        <item>Ertiga</item>
+        <item>Ignis</item>
+        <item>Jimny</item>
+        <item>Karimun Wagon R</item>
+        <item>SX4 S-Cross</item>
+        <item>XL7</item>
+    </string-array>
+    <string-array name="toyota_model">
+        <item>Agya</item>
+        <item>Alphard</item>
+        <item>Avanza</item>
+        <item>Calya</item>
+        <item>Camry</item>
+        <item>Corolla Altis</item>
+        <item>Fortuner</item>
+        <item>FT 86</item>
+        <item>Kijang Innova</item>
+        <item>Rush</item>
+        <item>Sienta</item>
+        <item>Supra</item>
+        <item>Yaris</item>
+    </string-array>
+</resources>

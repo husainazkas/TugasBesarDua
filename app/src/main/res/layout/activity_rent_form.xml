@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".RentFormActivity">
+    <RelativeLayout
+        android:layout_alignParentTop="true"
+        android:background="#455a64"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <RelativeLayout
+            android:paddingBottom="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="18sp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:id="@+id/title"
+                android:padding="16dp"
+                android:gravity="center"
+                android:text="Rent a car"
+                android:textColor="#FFFFFF"
+                android:layout_width="match_parent"
+                android:layout_height="60dp" />
+            <RelativeLayout
+                android:layout_below="@+id/title"
+                android:elevation="8dp"
+                android:id="@+id/rl_rent_form_forms"
+                android:background="#ffffff"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/layout_rent_form_start_date"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#cfd8dc"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/round_corner">
+                    <TextView
+                        android:id="@+id/tv_rent_form_start_date"
+                        android:padding="16dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/start_date"
+                        android:textColor="#000000"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:minHeight="50dp"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_event_black_24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/start_date" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_rent_form_end_date"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#cfd8dc"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/round_corner"
+                    android:layout_below="@id/layout_rent_form_start_date">
+                    <TextView
+                        android:id="@+id/tv_rent_form_end_date"
+                        android:backgroundTint="#cfd8dc"
+                        android:background="@drawable/round_corner"
+                        android:gravity="center_vertical"
+                        android:text="@string/end_date"
+                        android:textColor="#000000"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:padding="16dp"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:elevation="8dp"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_event_black_24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/end_date" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:id="@+id/layout_rent_form_car_brand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#cfd8dc"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/round_corner"
+                    android:layout_below="@+id/layout_rent_form_end_date">
+                    <Spinner
+                        android:id="@+id/sp_rent_form_car_brand"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/car_brand"
+                        android:padding="12dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:id="@+id/layout_rent_form_car_model"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#cfd8dc"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/round_corner"
+                    android:layout_below="@+id/layout_rent_form_car_brand">
+                    <Spinner
+                        android:id="@+id/sp_rent_form_car_model"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:id="@+id/tv_rent_form_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total\t:\tRp 0"
+            android:textColor="#000000"
+            android:padding="6dp"
+            />
+        <Button
+            android:id="@+id/btn_rent_form_next"
+            android:elevation="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Next"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+</RelativeLayout>

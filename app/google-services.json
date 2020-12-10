@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "136151501830",
+    "firebase_url": "https://tugasbesardua.firebaseio.com",
+    "project_id": "tugasbesardua",
+    "storage_bucket": "tugasbesardua.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:136151501830:android:bf22135363ba0e08b58787",
+        "android_client_info": {
+          "package_name": "com.tugasbesardua"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "136151501830-g4ggmh8ni9ttg570koahhku5ekq66k1m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALIMTFO7iJzVNCG1QO0TBLyskpVRZkY74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "136151501830-g4ggmh8ni9ttg570koahhku5ekq66k1m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
