@@ -1,7 +1,6 @@
 package com.tugasbesardua;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +11,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.tugasbesardua.models.RentalData;
+import com.tugasbesardua.models.UserData;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,8 +32,13 @@ import java.util.concurrent.TimeUnit;
 
 public class RentFormActivity extends AppCompatActivity {
 
-    private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy",Locale.getDefault());
+    private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final FirebaseAuth auth = FirebaseAuth.getInstance();
     private final Calendar calendar = Calendar.getInstance();
+
+    private final String uid = auth.getCurrentUser().getUid();
+    private UserData userData;
 
     TextView tvStartDate;
     TextView tvEndDate;
@@ -35,8 +50,8 @@ public class RentFormActivity extends AppCompatActivity {
     Date startDate;
     Date endDate;
 
-    String carBrandSelected;
-    String carModelSelected;
+    String carBrand;
+    String carModel;
     Integer price;
 
     @Override
@@ -44,6 +59,7 @@ public class RentFormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_form);
 
+        retrieveUserData();
         initView();
     }
 
@@ -65,9 +81,9 @@ public class RentFormActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Resources res = getResources();
                 String[] items = {};
-                carBrandSelected = adapterView.getSelectedItem().toString();
+                carBrand = adapterView.getSelectedItem().toString();
 
-                switch (carBrandSelected) {
+                switch (carBrand) {
                     case "Daihatsu":
                         items = res.getStringArray(R.array.daihatsu_model);
                         break;
@@ -100,7 +116,7 @@ public class RentFormActivity extends AppCompatActivity {
         spCarModel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                carModelSelected = adapterView.getSelectedItem().toString();
+                carModel = adapterView.getSelectedItem().toString();
             }
 
             @Override
@@ -109,19 +125,7 @@ public class RentFormActivity extends AppCompatActivity {
             }
         });
 
-        btnNext.setOnClickListener(v -> {
-            if(validate()) {
-                Intent intent = new Intent(this, IdentityConfirmActivity.class);
-                intent.putExtra("startDate", startDate.getTime());
-                intent.putExtra("endDate", endDate.getTime());
-                intent.putExtra("carBrand", carBrandSelected);
-                intent.putExtra("carModel", carModelSelected);
-                intent.putExtra("price", price);
-                startActivity(intent);
-            } else{
-                Toast.makeText(RentFormActivity.this, "Check again", Toast.LENGTH_SHORT).show();
-            }
-        });
+        btnNext.setOnClickListener(v -> button());
     }
 
     private void pickStartDate() {
@@ -192,101 +196,57 @@ public class RentFormActivity extends AppCompatActivity {
         }
     }
 
+    private void button() {
+        if(validate()) {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+            dialogBuilder.setMessage("Are you sure to continue?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", (dialogInterface, i) -> sendToDb())
+                    .setNegativeButton("No", (dialogInterface, i) -> dialogInterface.cancel())
+                    .create().show();
+        } else {
+            Toast.makeText(RentFormActivity.this, "Check again", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void sendToDb() {
+        String name = userData.getName();
+        String phone = userData.getPhone();
+        String email = userData.getEmail();
+
+        RentalData data = new RentalData(name, phone, email, carBrand, carModel, price * 1000, startDate.getTime(), endDate.getTime(), new Date().getTime(), "booked".toUpperCase());
+        DatabaseReference rentRef = database.getReference("/car-rental/" + uid).push();
+        rentRef.setValue(data).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(this, "Order success, you just need to pay at first", Toast.LENGTH_LONG).show();
+                InvoiceActivity.launchInvoice(this, data);
+            } else {
+                Toast.makeText(this, "Please try again later", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void retrieveUserData() {
+        DatabaseReference userRef = database.getReference("/user/" + uid);
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                userData = snapshot.getValue(UserData.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     private boolean validate() {
         boolean valid = true;
         if (startDate == null || endDate == null) valid = false;
         if (endDate != null && !endDate.after(startDate)) valid = false;
-        if (carBrandSelected == null) valid = false;
-        if (carModelSelected == null) valid = false;
+        if (carBrand == null) valid = false;
+        if (carModel == null) valid = false;
         return valid;
     }
 }
-
-//class GFG {
-//
-//    // Function to print difference in
-//    // time start_date and end_date
-//    static void findDifference(String start_date, String end_date) {
-//
-//        // SimpleDateFormat converts the
-//        // string format to date object
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
-//
-//        // Try Block
-//        try {
-//
-//            // parse method is used to parse
-//            // the text from a string to
-//            // produce the date
-//            Date d1 = sdf.parse(start_date);
-//            Date d2 = sdf.parse(end_date);
-//
-//            // Calucalte time difference
-//            // in milliseconds
-//            long difference_In_Time
-//                    = d2.getTime() - d1.getTime();
-//
-//            // Calucalte time difference in
-//            // seconds, minutes, hours, years,
-//            // and days
-//            long difference_In_Seconds
-//                    = (difference_In_Time
-//                    / 1000)
-//                    % 60;
-//
-//            long difference_In_Minutes
-//                    = (difference_In_Time
-//                    / (1000 * 60))
-//                    % 60;
-//
-//            long difference_In_Hours
-//                    = (difference_In_Time
-//                    / (1000 * 60 * 60))
-//                    % 24;
-//
-//            long difference_In_Years
-//                    = (difference_In_Time
-//                    / (1000L * 60 * 60 * 24 * 365));
-//
-//            long difference_In_Days
-//                    = (difference_In_Time
-//                    / (1000 * 60 * 60 * 24))
-//                    % 365;
-//            double a = Math.ceil(difference_In_Days);
-//Log.d("days" , "ini" + a);
-//            // Print the date difference in
-//            // years, in days, in hours, in
-//            // minutes, and in seconds
-//
-//            System.out.print("Difference " + "between two dates is: ");
-//
-//            System.out.println(
-//                    difference_In_Years + " years, " +
-//                            difference_In_Days + " days, " +
-//                            difference_In_Hours + " hours, " +
-//                            difference_In_Minutes + " minutes, " +
-//                            difference_In_Seconds + " seconds");
-//            Date d = new Date();
-//            d.setTime(difference_In_Time);
-//            System.out.println(sdf.format(d));
-//
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    // Driver Code
-//    public static void main(String[] args)
-//    {
-//        // Given start Date
-//        String start_date
-//                = "10-01-2018 15:10:20";
-//
-//        // Given end Date
-//        String end_date
-//                = "11-01-2020 15:10:20";
-//
-//        // Function Call
-//        findDifference(start_date, end_date);
-//    }
-//}

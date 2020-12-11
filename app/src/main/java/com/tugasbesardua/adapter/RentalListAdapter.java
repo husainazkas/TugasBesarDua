@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class RentalListAdapter extends Item<ViewHolder> {
-    private final SimpleDateFormat bookFormat = new SimpleDateFormat("EEEE, d MMM y HH:mm:ss", Locale.getDefault());
+    private final SimpleDateFormat bookFormat = new SimpleDateFormat("EEEE, d MMM y", Locale.getDefault());
     public final RentalData data;
 
     public RentalListAdapter(RentalData rentalData) {

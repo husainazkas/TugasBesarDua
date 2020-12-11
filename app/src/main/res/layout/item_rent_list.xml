@@ -43,7 +43,7 @@
         android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/tv_home_car_brand"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@+id/tv_home_car_brand"
         app:layout_constraintTop_toBottomOf="@+id/tv_home_car_brand"
         app:layout_constraintVertical_bias="0.022" />

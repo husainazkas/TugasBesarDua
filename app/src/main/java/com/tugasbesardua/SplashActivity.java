@@ -24,7 +24,7 @@ public class SplashActivity extends AppCompatActivity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
 
         setContentView(R.layout.activity_splash);
@@ -33,13 +33,13 @@ public class SplashActivity extends AppCompatActivity {
             Intent homeIntent;
             FirebaseUser user = auth.getCurrentUser();
             if (user != null) {
-                homeIntent = new Intent(SplashActivity.this, HomeActivity.class);
+                homeIntent = new Intent(this, HomeActivity.class);
             } else {
-                homeIntent= new Intent(SplashActivity.this, LoginActivity.class);
+                homeIntent= new Intent(this, LoginActivity.class);
             }
             startActivity(homeIntent);
             finish();
-        },SPLASH_TIME_OUT);
+        }, SPLASH_TIME_OUT);
 
     }
 }
