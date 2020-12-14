@@ -63,10 +63,10 @@
                 android:layout_height="45dp"
                 android:ems="10"
                 android:hint="@string/email_text"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
-                android:textColorHint="@android:color/secondary_text_dark_nodisable" />
+                android:textColorHint="@android:color/secondary_text_light_nodisable" />
 
             <EditText
                 android:id="@+id/et_login_password"
@@ -76,7 +76,7 @@
                 android:hint="@string/password_text"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textColorHint="@android:color/secondary_text_light_nodisable"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
