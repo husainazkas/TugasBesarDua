@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".RegistrationActivity">
 
     <RelativeLayout
@@ -20,7 +19,6 @@
             android:layout_height="200dp" />
 
         <LinearLayout
-            android:id="@+id/layout_registration_forms"
             android:layout_margin="20dp"
             android:layout_below="@+id/regtv1"
             android:background="#ffffff"

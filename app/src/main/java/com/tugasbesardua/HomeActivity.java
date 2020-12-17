@@ -114,16 +114,13 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch(item.getItemId()){
-            case R.id.menu_home_profile:
-                startActivity(new Intent(this, ProfileActivity.class));
-                break;
-            case R.id.menu_home_logout:
-                logout();
-                break;
-            default:
-                return false;
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu_home_profile) {
+            startActivity(new Intent(this, ProfileActivity.class));
+        } else if (itemId == R.id.menu_home_logout) {
+            logout();
+        } else {
+            return false;
         }
         return true;
     }

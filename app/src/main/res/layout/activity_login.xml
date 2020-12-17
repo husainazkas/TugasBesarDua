@@ -7,7 +7,6 @@
     tools:context=".LoginActivity">
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="RENTINGIN AJA"
@@ -41,7 +40,6 @@
             android:layout_marginBottom="40dp">
 
             <TextView
-                android:id="@+id/tv_login_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sign_in_text"
@@ -51,7 +49,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_login_forms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/layout_login_title"
@@ -87,7 +84,6 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"

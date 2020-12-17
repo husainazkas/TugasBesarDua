@@ -32,12 +32,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
-import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static android.graphics.ImageDecoder.decodeBitmap;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -48,7 +44,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private static final int GALLERY = 505;
     private static final int CAMERA = 111;
 
-//    private ImageView ivPhoto;
     private CircleImageView civPhoto;
     private EditText etName;
     private EditText etEmail;
@@ -196,22 +191,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please try again later", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private Uri uriFromBitmap(Bitmap bitmap) {
-        File newFile = new File(getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath());
-
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 60, bytes);
-        try {
-            FileOutputStream fos = new FileOutputStream(newFile);
-            fos.write(bytes.toByteArray());
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return Uri.fromFile(newFile);
     }
 
     private boolean validate(String name, String email, String pass, String phone, String city) {

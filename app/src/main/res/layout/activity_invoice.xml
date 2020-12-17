@@ -35,7 +35,6 @@
             <RelativeLayout
                 android:layout_below="@+id/tv_invoice_title"
                 android:elevation="8dp"
-                android:id="@+id/rl_invoice"
                 android:background="#ffffff"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
@@ -149,7 +148,6 @@
                         android:layout_margin="10dp" />
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/layout_invoice_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/layout_invoice_status">

@@ -3,11 +3,6 @@ package com.tugasbesardua.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.firebase.database.Exclude;
-
-import java.util.HashMap;
-import java.util.Map;
-
 public class RentalData implements Parcelable {
     String name, phone, email, carBrand, carModel, status;
     Integer price;
