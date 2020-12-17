@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -12,9 +13,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 import com.tugasbesardua.models.UserData;
 
 import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -26,6 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView tvPhone;
     TextView tvEmail;
     TextView tvCity;
+    CircleImageView civPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvPhone = findViewById(R.id.tv_profile_phone);
         tvEmail = findViewById(R.id.tv_profile_email);
         tvCity = findViewById(R.id.tv_profile_city);
+        civPhoto = findViewById(R.id.civ_profile_photo);
 
         String title = "My Profile";
         tvTitle.setText(title);
@@ -59,6 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
                     tvPhone.setText(userData.getPhone());
                     tvEmail.setText(userData.getEmail());
                     tvCity.setText(userData.getCity());
+                    if (userData.getPhotoUrl() != null) Picasso.get().load(userData.getPhotoUrl()).into(civPhoto);
                 }
             }
 

@@ -27,10 +27,12 @@ public class RentalListAdapter extends Item<ViewHolder> {
         TextView tvCarBrand = itemView.findViewById(R.id.tv_home_car_brand);
         TextView tvCarModel = itemView.findViewById(R.id.tv_home_car_model);
         TextView tvDateBook = itemView.findViewById(R.id.tv_home_date_book);
+        TextView tvStatus = itemView.findViewById(R.id.tv_home_status);
 
         tvCarBrand.setText(data.getCarBrand());
         tvCarModel.setText(data.getCarModel());
         tvDateBook.setText(bookFormat.format(data.getDateBook()));
+        tvStatus.setText(data.getStatus());
     }
 
     @Override

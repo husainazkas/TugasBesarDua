@@ -26,6 +26,7 @@
         android:textSize="22sp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
+        android:text="kaskaj"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.183"
@@ -40,6 +41,7 @@
         android:maxWidth="220dp"
         android:maxHeight="20dp"
         android:textSize="16sp"
+        android:text="kasjdka"
         android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/tv_home_car_brand"
@@ -48,17 +50,35 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_home_car_brand"
         app:layout_constraintVertical_bias="0.022" />
 
-    <TextView
-        android:id="@+id/tv_home_date_book"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxWidth="220dp"
-        android:maxHeight="20dp"
-        android:textSize="16sp"
-        android:layout_marginEnd="10dp"
+        android:layout_height="match_parent"
+        android:paddingEnd="10dp"
+        android:paddingStart="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_home_date_book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:maxWidth="220dp"
+            android:maxHeight="20dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_home_status"
+            android:layout_below="@id/tv_home_date_book"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="220dp"
+            android:maxHeight="20dp"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
