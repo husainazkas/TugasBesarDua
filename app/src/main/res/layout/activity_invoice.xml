@@ -181,11 +181,11 @@
             android:text="CANCEL"
             android:textColor="@color/white"/>
         <Button
-            android:id="@+id/btn_invoice_enter_code"
+            android:id="@+id/btn_invoice_upload_photo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="ENTER CODE"/>
+            android:text="UPLOAD PHOTO"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/layout_invoice_back_home"

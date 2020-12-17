@@ -59,36 +59,22 @@ public class HomeActivity extends AppCompatActivity {
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Toast.makeText(HomeActivity.this, "NEW RECORD ADDED", Toast.LENGTH_SHORT).show();
-
                 RentalData data = snapshot.getValue(RentalData.class);
                 hashMap.put(snapshot.getKey(), data);
                 refreshList();
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Toast.makeText(HomeActivity.this, "NEW RECORD CHANGED", Toast.LENGTH_SHORT).show();
-
-                RentalData data = snapshot.getValue(RentalData.class);
-                hashMap.put(snapshot.getKey(), data);
-                refreshList();
-            }
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                Toast.makeText(HomeActivity.this, "NEW RECORD REMOVED", Toast.LENGTH_SHORT).show();
-            }
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Toast.makeText(HomeActivity.this, "NEW RECORD MOVED", Toast.LENGTH_SHORT).show();
-            }
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(HomeActivity.this, "SOMETHING ERROR: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
 
         adapter.setOnItemClickListener((item, view) -> {
@@ -119,6 +105,8 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(new Intent(this, ProfileActivity.class));
         } else if (itemId == R.id.menu_home_logout) {
             logout();
+        } else if (itemId == R.id.menu_home_credit) {
+            startActivity(new Intent(this, CreditActivity.class));
         } else {
             return false;
         }

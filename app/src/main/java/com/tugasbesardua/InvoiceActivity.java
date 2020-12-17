@@ -4,14 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -39,8 +39,7 @@ public class InvoiceActivity extends AppCompatActivity {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, d MMM y", Locale.getDefault());
     private final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 
-
-    private static final String verificationCode = "kelompok5";
+    private static final int IMAGE_CODE = 823;
 
     final Date startDate = new Date();
     final Date endDate = new Date();
@@ -57,7 +56,7 @@ public class InvoiceActivity extends AppCompatActivity {
     TextView tvDateBook;
     TextView tvStatus;
     Button btnCancel;
-    Button btnEnterCode;
+    Button btnUploadPhoto;
     Button btnBackToHome;
 
     String name;
@@ -87,6 +86,20 @@ public class InvoiceActivity extends AppCompatActivity {
         HomeActivity.launchIntentClearTask(this);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == IMAGE_CODE && data != null) {
+                final Uri uri = data.getData();
+                Intent intent = new Intent(this, ImagePreviewActivity.class);
+                intent.putExtra("uri", uri.toString());
+                intent.putExtra("dateBook", dateBook.getTime());
+                startActivity(intent);
+            }
+        }
+    }
+
     private void initView() {
         tvName = findViewById(R.id.tv_invoice_name);
         tvPhone = findViewById(R.id.tv_invoice_phone);
@@ -99,7 +112,7 @@ public class InvoiceActivity extends AppCompatActivity {
         tvDateBook = findViewById(R.id.tv_invoice_date_book);
         tvStatus = findViewById(R.id.tv_invoice_status);
         btnCancel = findViewById(R.id.btn_invoice_cancel);
-        btnEnterCode = findViewById(R.id.btn_invoice_enter_code);
+        btnUploadPhoto = findViewById(R.id.btn_invoice_upload_photo);
         btnBackToHome = findViewById(R.id.btn_invoice_back_home);
 
         Bundle extras = getIntent().getExtras();
@@ -131,82 +144,47 @@ public class InvoiceActivity extends AppCompatActivity {
         tvDateBook.setText(dateBookStrg);
         tvStatus.setText(status);
 
-        if (data.getStatus().equals("RENTING")) {
-            isRenting = true;
-            btnEnterCode.setText("DONE");
+        if (!data.getStatus().equals("BOOKED")) {
+            btnUploadPhoto.setText("DONE");
             btnCancel.setEnabled(false);
             btnCancel.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#C31919")));
-        } else if (data.getStatus().equals("DONE")) {
-            isRenting = false;
-            btnEnterCode.setText("DONE");
-            btnEnterCode.setEnabled(false);
-            btnCancel.setEnabled(false);
-            btnCancel.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#C31919")));
+        }
+
+        switch (data.getStatus()) {
+            case "RENTING":
+                isRenting = true;
+                btnUploadPhoto.setEnabled(true);
+                break;
+            case "DONE":
+            case "CANCELED":
+                isRenting = false;
+                btnUploadPhoto.setEnabled(false);
+                break;
         }
 
         btnCancel.setOnClickListener(view -> {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
             dialogBuilder.setMessage("Your book will canceled")
-                    .setPositiveButton("Yes", (dialogInterface, i) -> cancelBook(ref))
+                    .setPositiveButton("Yes", (dialogInterface, i) -> updateStatus(this, ref, "canceled", dateBook))
                     .setNegativeButton("No", (dialogInterface, i) -> dialogInterface.cancel())
                     .create().show();
         });
-        btnEnterCode.setOnClickListener(view -> {
+        btnUploadPhoto.setOnClickListener(view -> {
             if (isRenting) {
-                done();
+                updateStatus(this, ref, "done", dateBook);
             } else {
-                enterCode();
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+
+                startActivityForResult(intent, IMAGE_CODE);
             }
         });
         btnBackToHome.setOnClickListener(view -> HomeActivity.launchIntentClearTask(this));
     }
 
-    private void cancelBook(DatabaseReference rentRef) {
-        Query query = rentRef.orderByChild("dateBook").equalTo(dateBook.getTime());
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot child: snapshot.getChildren()) {
-                    child.getRef().removeValue((error, ref) -> {
-                        Toast.makeText(InvoiceActivity.this, "This book has canceled", Toast.LENGTH_SHORT).show();
-                        HomeActivity.launchIntentClearTask(InvoiceActivity.this);
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(InvoiceActivity.this, "Unknown Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void done() {
-        updateStatus(ref, "done");
-    }
-
-    private void enterCode() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_enter_code, null);
-
-        dialogBuilder
-                .setView(dialogView)
-                .setTitle("Enter verification code")
-                .setPositiveButton("Yes", (dialogInterface, i) -> {
-                    EditText etCode = dialogView.findViewById(R.id.et_dialog_enter_code);
-                    String code = etCode.getText().toString();
-                    if (code.equals(verificationCode)){
-                        updateStatus(ref, "renting");
-                    } else {
-                        Toast.makeText(this, "Invalid code", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("No", (dialogInterface, i) -> dialogInterface.cancel())
-                .create().show();
-    }
-
-    private void updateStatus(DatabaseReference rentRef, String newStatus) {
-        Query query = rentRef.orderByChild("dateBook").equalTo(dateBook.getTime());
+    public void updateStatus(Context context, DatabaseReference rentRef, String newStatus, Date date) {
+        Query query = rentRef.orderByChild("dateBook").equalTo(date.getTime());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -218,16 +196,16 @@ public class InvoiceActivity extends AppCompatActivity {
                 status.put("status", newStatus.toUpperCase());
                 newRef.updateChildren(status).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        HomeActivity.launchIntentClearTask(InvoiceActivity.this);
+                        HomeActivity.launchIntentClearTask(context);
                     } else {
-                        Toast.makeText(InvoiceActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(InvoiceActivity.this, "Unknown Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Unknown Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

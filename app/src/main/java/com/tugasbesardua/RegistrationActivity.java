@@ -105,7 +105,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void initView() {
         civPhoto = findViewById(R.id.civ_registration_photo);
-//        ivPhoto = findViewById(R.id.iv_registration_photo);
         etName = findViewById(R.id.et_registration_name);
         etEmail = findViewById(R.id.et_registration_email);
         etPassword = findViewById(R.id.et_registration_password);

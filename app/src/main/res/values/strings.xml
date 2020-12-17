@@ -14,6 +14,7 @@
     <string name="logout_text">Logout</string>
     <string name="start_date">Start Date</string>
     <string name="end_date">End Date</string>
+    <string name="credit_text">Credit</string>
     <string-array name="car_brand">
         <item>Daihatsu</item>
         <item>Honda</item>
